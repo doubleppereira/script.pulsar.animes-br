@@ -1,4 +1,4 @@
-script.pulsar.narutoproject
+script.pulsar.animes-br
 ===========================
 
 Brazilian Portuguese content
