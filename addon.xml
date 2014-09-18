@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.pulsar.narutoproject" name="Pulsar Natuto Project Provider (pt-br)" version="0.0.3" provider-name="platbr">
+<addon id="script.pulsar.animes-br" name="Pulsar Animes Provider (pt-br)" version="0.0.3" provider-name="platbr">
 	<requires>
 		<import addon="xbmc.python" version="2.12.0"/>
 	</requires>
@@ -7,7 +7,7 @@
 		<provides>executable</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">Pulsar Natuto Project Provider</summary>
+		<summary lang="en">Pulsar Animes Provider (pt-br)</summary>
 		<language></language>
 		<platform>all</platform>
 	</extension>
