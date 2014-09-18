@@ -11,6 +11,15 @@ import hashlib
 inicio = time.time()
 cache_age = 24 * 60 * 60
 
+def search_episode(imdb_id, tvdb_id, name, season, episode):
+    print 'ANIMES-BR Provider Seaching for: ' + name + ' (' + str(season).zfill(2) + 'E' + str(episode).zfill(2) + ')'
+    if(tvdb_id == '79824'):
+        return search_naruto_shippuden(season, episode)
+    elif(tvdb_id == '81797'):
+        return search_one_piece(season, episode)
+    else:
+        return []
+
 def search_naruto_shippuden(season, episode):
     cache_file = xbmc.translatePath('special://temp') + "naruto_shippuden_episode_list.html"
     #cache_file = "naruto_shippuden_episode_list.html"
@@ -33,7 +42,7 @@ def search_naruto_shippuden(season, episode):
         f = open(cache_file, "w")
         f.write(data)
         f.close()
-    season_episode_fix = [{"season": season, "first_episode": first_episode } for season, first_episode in re.findall(r'>(?:Season ([0-9][0-9]*)):.*?>([0-9]*)<\/th>', data,re.DOTALL)]
+    season_episode_fix = [{"season": season, "first_episode": first_episode } for season, first_episode in re.findall(r'>(?:Season ([0-9][0-9]*))?:.*?>([0-9]*)<\/th>', data,re.DOTALL)]
     episode_number = []
     for item in  season_episode_fix:
         if(item['season'] == season):
@@ -42,16 +51,42 @@ def search_naruto_shippuden(season, episode):
     torrent = "http://naruto.com.br/torrent/narutoPROJECT_-_Shippuuden_%s.mkv.torrent" % str(episode_number)
     print "Naruto Project - Downloading: " + torrent
     return [{"uri": torrent2mag(torrent)}]
+
+def search_one_piece(season, episode):
+    cache_file = xbmc.translatePath('special://temp') + "one_piece_episode_list.html"
+    #cache_file = "one_piece_episode_list.html"
+    if(os.path.isfile(cache_file)):
+        if ((time.time() - os.stat(cache_file).st_mtime)  > cache_age):
+            print 'Invalid cache!'
+            req = urllib2.Request('http://en.wikipedia.org/wiki/List_of_One_Piece_episodes')
+            data = urllib2.urlopen(req).read()
+            f = open(cache_file, "w")
+            f.write(data)
+            f.close()
+        else:
+            f = open(cache_file, "r")
+            data = f.read()
+            f.close()
+    else:
+        print 'No cache!'
+        req = urllib2.Request('http://en.wikipedia.org/wiki/List_of_One_Piece_episodes')
+        data = urllib2.urlopen(req).read()
+        f = open(cache_file, "w")
+        f.write(data)
+        f.close()
+    season_episode_fix = [{"season": season, "first_episode": first_episode } for season, first_episode in re.findall(r'>(?:Season ([0-9][0-9]*))\ ?\(.*?\).*?(?:>([0-9][0-9]*)</th>)', data,re.DOTALL)]
+    print season_episode_fix
+    episode_number = []
+    for item in  season_episode_fix:
+        if(item['season'] == season):
+            episode_number = int(item['first_episode']) + (episode - 1)
+            break
+    torrent = "http://pieceproject.net/torrent/piecePROJECT_-_Epi_%s_HD.mp4.torrent" % str(episode_number)
+    print "One Piece Project - Downloading: " + torrent
+    return [{"uri": torrent2mag(torrent)}]
     
 def search(query):
   return []
-
-def search_episode(imdb_id, tvdb_id, name, season, episode):
-    if(tvdb_id == 79824):
-        print 'Seaching for: ' + name + ' (' + str(season).zfill(2) + 'E' + str(episode).zfill(2) + ')'
-        return search_naruto_shippuden(season, episode)
-    else:
-        return []
 
 def search_movie(imdb_id, name, year):
     return []
@@ -71,3 +106,4 @@ urllib2.urlopen(
 PAYLOAD["callback_url"],
 data=json.dumps(globals()[PAYLOAD["method"]](*PAYLOAD["args"]))
 )
+print 'ANIMES-BR Provider Time: ' + str(time.time() - inicio)
