@@ -52,7 +52,7 @@ def search_naruto_shippuden(season, episode):
         if(item['season'] == season):
             episode_number = int(item['first_episode']) + (episode - 1)
             resp = provider.GET(URL_BASE, params={"q": 'narutoPROJECT Shippuuden ' + str(episode_number),})
-	        return provider.extract_magnets(resp.data)
+            return provider.extract_magnets(resp.data)
             break
     return []
     
@@ -64,15 +64,9 @@ def search_one_piece(season, episode):
         if(item['season'] == season):
             episode_number = int(item['first_episode']) + (episode - 1)
             resp = provider.GET(URL_BASE, params={"q": 'piecePROJECT ' + str(episode_number) + 'HD',})
-	        return provider.extract_magnets(resp.data)
+            return provider.extract_magnets(resp.data)
             break
     return []
-
-def storetorrent_get_magnet(query):
-    req = urllib2.Request(URL_BASE + urllib.quote_plus(query))
-    data = urllib2.urlopen(req).read()
-    for magnet in re.findall(r'(magnet:.*)" class', data):
-        return magnet
 
 def get_onepiece_fix():
     data = get_url('http://en.wikipedia.org/wiki/List_of_One_Piece_episodes')
