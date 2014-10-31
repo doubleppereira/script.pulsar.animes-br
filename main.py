@@ -16,7 +16,7 @@ addon_dir = xbmc.translatePath(__addon__.getAddonInfo('path'))
 sys.path.append(os.path.join(addon_dir, 'resources', 'lib' ))
 inicio = time.time()
 
-URL_BASE = 'https://btdigg.org/search'
+base_url = 'https://btdigg.org/search'
 
 PREFIX_LOG = 'ANIMESBR - '
 HEADERS = { 'Referer' : base_url,
@@ -51,7 +51,7 @@ def search_naruto_shippuden(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == season):
             episode_number = int(item['first_episode']) + (episode - 1)
-            resp = provider.GET(URL_BASE, params={"q": 'narutoPROJECT Shippuuden ' + str(episode_number),})
+            resp = provider.GET(base_url, params={"q": 'narutoPROJECT Shippuuden ' + str(episode_number),})
             return provider.extract_magnets(resp.data)
             break
     return []
@@ -63,11 +63,11 @@ def search_one_piece(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == season):
             episode_number = int(item['first_episode']) + (episode - 1)
-            resp = provider.GET(URL_BASE, params={"q": 'piecePROJECT ' + str(episode_number) + 'HD',})
+            resp = provider.GET(base_url, params={"q": 'piecePROJECT ' + str(episode_number) + 'HD',})
             return provider.extract_magnets(resp.data)
             break
     return []
-
+    
 def get_onepiece_fix():
     data = get_url('http://en.wikipedia.org/wiki/List_of_One_Piece_episodes')
     return [{"season": season, "first_episode": first_episode } for season, first_episode in re.findall(r'>(?:Season ([0-9][0-9]*))\ ?\(.*?\).*?(?:>([0-9][0-9]*)</th>)', data, re.DOTALL)]
