@@ -52,6 +52,7 @@ def search_naruto_shippuden(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == str(season)):
             episode_number = int(item['first_episode']) + (episode - 1)
+            print PREFIX_LOG + 'Ep: ' + str(episode_number)
             u = urllib2.urlopen(base_url + '?q=narutoPROJECT+Shippuuden+' + str(episode_number))
             try:
                for line in u:
@@ -73,8 +74,9 @@ def search_one_piece(season, episode):
     season_episode_fix = get_cached_func('get_onepiece_fix')
     episode_number = []
     for item in  season_episode_fix:
-        if(item['season'] == season):
+        if(item['season'] == str(season)):
             episode_number = int(item['first_episode']) + (episode - 1)
+            print PREFIX_LOG + 'Ep: ' + str(episode_number)
             u = urllib2.urlopen(base_url + '?q=piecePROJECT+' + str(episode_number) + '+HD')
             try:
                for line in u:
