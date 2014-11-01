@@ -52,14 +52,19 @@ def search_naruto_shippuden(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == str(season)):
             episode_number = int(item['first_episode']) + (episode - 1)
-            resp = provider.GET(base_url, params={"q": 'narutoPROJECT Shippuuden ' + str(episode_number),})
+            u = urllib2.urlopen(base_url + '?q=narutoPROJECT+Shippuuden+' + str(episode_number))
             try:
-                for line in resp.data:
-                    if line.startswith('#'):
-                        continue
-                    info_hash, name, files, size, dl, seen = line.strip().split('\t')[:6]
-                    magnet = 'magnet:?xt=urn:btih:%s' % (info_hash,)
-                    result.append({'uri': magnet})
+               for line in u:
+                if line.startswith('#'):
+                    continue
+                info_hash, name, files, size, dl, seen = line.strip().split('\t')[:6]
+                res = dict(uri = 'magnet:?xt=urn:btih:%s' % (info_hash,) + '&amp;dn=' + '%s' % name.translate(None, '|') ) 
+                if(files == '1'):
+                    result.append(res)
+            except urllib2.HTTPError as error_code:
+                provider.log.error(PREFIX_LOG + ' error %s' % error_code, xbmc.LOGDEBUG)
+            finally:
+                u.close()
             break
     return result
     
@@ -70,10 +75,21 @@ def search_one_piece(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == season):
             episode_number = int(item['first_episode']) + (episode - 1)
-            resp = provider.GET(base_url, params={"q": 'piecePROJECT ' + str(episode_number) + 'HD',})
-            return provider.extract_magnets(resp.data)
+            u = urllib2.urlopen(base_url + '?q=piecePROJECT+' + str(episode_number) + '+HD')
+            try:
+               for line in u:
+                if line.startswith('#'):
+                    continue
+                info_hash, name, files, size, dl, seen = line.strip().split('\t')[:6]
+                res = dict(uri = 'magnet:?xt=urn:btih:%s' % (info_hash,) + '&amp;dn=' + '%s' % name.translate(None, '|') ) 
+                if(files == '1'):
+                    result.append(res)
+            except urllib2.HTTPError as error_code:
+                provider.log.error(PREFIX_LOG + 'error %s' % error_code, xbmc.LOGDEBUG)
+            finally:
+                u.close()
             break
-    return []
+    return result
     
 def get_onepiece_fix():
     data = get_url('http://en.wikipedia.org/wiki/List_of_One_Piece_episodes')
