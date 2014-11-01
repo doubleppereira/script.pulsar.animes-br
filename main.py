@@ -28,7 +28,7 @@ cache_prefix = xbmc.translatePath('special://temp') + __addon__.getAddonInfo('na
 def search(query):
     return []
 
-def search_movie(imdb_id, name, year):
+def search_movie(movie):
     return []
 
 def search_episode(ep):
