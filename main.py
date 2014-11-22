@@ -36,13 +36,13 @@ def search_episode(ep):
     season = ep['season']
     episode = ep['episode']
     tvdb_id = ep['tvdb_id']
-    print PREFIX_LOG + 'Seaching for: ' + name + ' (S' + str(season).zfill(2) + 'E' + str(episode).zfill(2) + ')'
+    provider.log.info(PREFIX_LOG + 'Seaching for: ' + name + ' (S' + str(season).zfill(2) + 'E' + str(episode).zfill(2) + ')')
     result = []
     if(tvdb_id == '79824'):
         result = search_naruto_shippuden(season, episode)
     elif(tvdb_id == '81797'):
         result = search_one_piece(season, episode)
-    print PREFIX_LOG + 'Result:' + str(result)
+    provider.log.info(PREFIX_LOG + 'Result:' + str(result))
     return result
 
 def search_naruto_shippuden(season, episode):
@@ -52,7 +52,7 @@ def search_naruto_shippuden(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == str(season)):
             episode_number = int(item['first_episode']) + (episode - 1)
-            print PREFIX_LOG + 'Ep: ' + str(episode_number)
+            provider.log.info(PREFIX_LOG + 'Ep: ' + str(episode_number))
             u = urllib2.urlopen(base_url + '?q=narutoPROJECT+Shippuuden+' + str(episode_number))
             try:
                for line in u:
@@ -76,7 +76,7 @@ def search_one_piece(season, episode):
     for item in  season_episode_fix:
         if(item['season'] == str(season)):
             episode_number = int(item['first_episode']) + (episode - 1)
-            print PREFIX_LOG + 'Ep: ' + str(episode_number)
+            provider.log.info(PREFIX_LOG + 'Ep: ' + str(episode_number))
             u = urllib2.urlopen(base_url + '?q=piecePROJECT+' + str(episode_number) + '+HD')
             try:
                for line in u:
@@ -102,7 +102,7 @@ def get_shippuden_fix():
     return [{"season": season, "first_episode": first_episode } for season, first_episode in re.findall(r'>(?:Season ([0-9][0-9]*))?:.*?>([0-9]*)<\/th>', data, re.DOTALL)]
 
 def get_url(url):
-    print PREFIX_LOG + 'Downloading ' + url
+    provider.log.info(PREFIX_LOG + 'Downloading ' + url)
     req = urllib2.Request(url, headers=HEADERS)
     data = urllib2.urlopen(req).read()
     return data
@@ -137,8 +137,8 @@ def update_cache(key,funcName,funcParm):
         d[key] = f()
     else:
         d[key] = f(*funcParm)
-    print PREFIX_LOG + 'Cache key: ' + key + ' updated!'
+    provider.log.info(PREFIX_LOG + 'Cache key: ' + key + ' updated!')
     d.close()
     
-print PREFIX_LOG + 'Time: ' + str((time.time() - inicio))
+provider.log.info(PREFIX_LOG + 'Time: ' + str((time.time() - inicio)))
 provider.register(search, search_movie, search_episode)
