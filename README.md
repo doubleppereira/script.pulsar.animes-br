@@ -6,8 +6,8 @@ Brazilian Portuguese content
 - naruto shippuuden (aliançaPROJECT)
 - hunter x hunter - 2011 (aliançaPROJECT)
 
-
-Leia-me
+===========================
+LEIA-ME
 - Modifique o arquivo resources\data.json para adicionar novos animes, se der certo me avise para atualizar o repositório ou se souber como crie um pull request.
 - Só vai funcionar com trackers abertos
 - Instruções sobre o arquivo resources\data.json:
@@ -17,5 +17,5 @@ Leia-me
   - tracker_engine: Valores aceitos atualmente -> 'generic' ou 'btdigg_api'.
   - base_url: Parte da URL que fica antes da "String de Busca".
 
-Atenção não se esqueça da virgula no final, das aspas e chaves.
-A tracker_engine "generic" só funciona com pesquisas que retornem o link magnético direto.
+Atenção não se esqueça das virgulas, aspas e chaves.
+O tracker_engine "generic" só funciona com pesquisas que retornem o link magnético direto.
