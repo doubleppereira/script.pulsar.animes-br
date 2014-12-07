@@ -7,11 +7,6 @@ import json
 import xbmcaddon
 import os
 from pulsar import provider
-inicio = time.time()
-PREFIX_LOG = 'ANIMESBR - '
-__addon__ = xbmcaddon.Addon(str(sys.argv[0]))
-addon_dir = xbmc.translatePath(__addon__.getAddonInfo('path'))
-
 # Leia-me
 # - Modifique o arquivo resources\data.json para adicionar novos animes,
 # se der certo me avise para atualizar o repositório ou se souber como crie um pull request.
@@ -26,7 +21,10 @@ addon_dir = xbmc.translatePath(__addon__.getAddonInfo('path'))
 #
 # Atenção não se esqueça da virgula no final, das aspas e chaves.
 # A tracker_engine "generic" só funciona com pesquisas que retornem o link magnético direto.
-
+inicio = time.time()
+PREFIX_LOG = 'ANIMESBR - '
+__addon__ = xbmcaddon.Addon()
+addon_dir = xbmc.translatePath(__addon__.getAddonInfo('path'))
 provider.log.info(open(os.path.join(addon_dir, 'resources', 'data.json')))
 animes_array = json.loads(open(os.path.join(addon_dir, 'resources', 'data.json'),'r').read())["animes"]
 provider.log.info("Conteúdo do data.json:" + str(animes_array))
