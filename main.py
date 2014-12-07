@@ -1,28 +1,14 @@
-import sys
-import os
 import urllib2
 import urllib
-import hashlib
 import time
 import re
-import xbmcaddon
-import xbmcplugin
 from pulsar import provider
-import shelve
-import thread
 
-begin = time.time()
-__addon__ = xbmcaddon.Addon(str(sys.argv[0]))
-addon_dir = xbmc.translatePath(__addon__.getAddonInfo('path'))
-sys.path.append(os.path.join(addon_dir, 'resources', 'lib' ))
 inicio = time.time()
 
 base_url = 'http://api.btdigg.org/api/public-8e9a50f8335b964f/s01'
 
 PREFIX_LOG = 'ANIMESBR - '
-HEADERS = { 'Referer' : base_url,
-            'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36'
-}
 
 def search(query):
     return []
