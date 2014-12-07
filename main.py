@@ -47,7 +47,7 @@ def search_episode(ep):
     base_url = ''
     search_string = ''    
     for anime in animes_array:
-        if anime["tvdb_id"] == tvdb_id:
+        if int(anime["tvdb_id"]) == tvdb_id:
             search_string = re.sub(' ', '+',re.sub('%EPISODE%', str(absolute_number),anime["search_string"]))
             tracker_engine = anime["tracker_engine"]
             base_url = anime["base_url"]
